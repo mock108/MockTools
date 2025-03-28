@@ -11,12 +11,12 @@ import org.springframework.context.annotation.Configuration;
 
 import com.zaxxer.hikari.HikariDataSource;
 
-import io.github.mockup.polaris.core.config.PolarisEncrypterConfig.PolarisEncrypter;
+import io.github.mockup.algol.AlgolEncrypter;
 
 @Configuration
 public class PolarisMysqlDatasourceConfig {
 	@Autowired
-	private PolarisEncrypter polarisEncrypter;
+	private AlgolEncrypter encrypter;
 	@Value("${polaris.mysql.driver-class-name}")
 	private String driverClassName;
 	@Value("${polaris.mysql.url}")
@@ -32,8 +32,8 @@ public class PolarisMysqlDatasourceConfig {
 		DataSourceProperties properties = new DataSourceProperties();
 		properties.setDriverClassName(driverClassName);
 		properties.setUrl(url);
-		properties.setUsername(polarisEncrypter.decrypt(userName));
-		properties.setPassword(polarisEncrypter.decrypt(password));
+		properties.setUsername(encrypter.decrypt(userName));
+		properties.setPassword(encrypter.decrypt(password));
 		return properties.initializeDataSourceBuilder().type(HikariDataSource.class).build();
 	}
 }

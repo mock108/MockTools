@@ -9,9 +9,6 @@ spring:
 polaris:
   url: http://localhost:8080
 zenith:
-  encrypt:
-    key: "/.zenith/secret/secret.key"
-    vi: "/.zenith/secret/secret.iv"
   mysql: # datasource
     driver-class-name: org.mariadb.jdbc.Driver
     url: jdbc:mariadb://localhost:3306/test_database?serverTimezon=JST&allowPublicKeyRetrieval=true
