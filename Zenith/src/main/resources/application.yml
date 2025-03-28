@@ -1,0 +1,41 @@
+server:
+  port: 8087
+  servlet.context-path: /zenith
+spring: 
+  application.name: Zenith
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+polaris:
+  url: http://localhost:8080
+zenith:
+  encrypt:
+    key: "/.zenith/secret/secret.key"
+    vi: "/.zenith/secret/secret.iv"
+  mysql: # datasource
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3306/test_database?serverTimezon=JST&allowPublicKeyRetrieval=true
+    username: uv/rEZLW7W1CRWB99XUZfA==
+    password: uv/rEZLW7W1CRWB99XUZfA==
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      pool-name: ZenithLocalPool
+      leak-detection-threshold: 60000
+      connection-test-query: SELECT 1
+      minimum-idle: 1
+      maximum-pool-size: 5
+      auto-commit: false
+  session:
+    timeout: 3600
+    cookie:
+      domain:
+      max-age: -1 # Cookie有効期限(無制限)
+      name: ZENITHSID # CookieセッションID
+    
+    
+    
+    
+    
+    
+    
+    

@@ -1,0 +1,18 @@
+spring.application.name: Polaris
+polaris:
+  encrypt:
+    key: "/.polaris/secret/secret.key"
+    vi: "/.polaris/secret/secret.iv"
+  mysql: # datasource
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3306/test_database?serverTimezon=JST&allowPublicKeyRetrieval=true
+    username: uv/rEZLW7W1CRWB99XUZfA==
+    password: uv/rEZLW7W1CRWB99XUZfA==
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      pool-name: PolarisLocalPool
+      leak-detection-threshold: 60000
+      connection-test-query: SELECT 1
+      minimum-idle: 1
+      maximum-pool-size: 5
+      auto-commit: false
