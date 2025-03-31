@@ -1,5 +1,5 @@
 server:
-  port: 8087
+  port: 8080
   servlet.context-path: /zenith
 spring: 
   application.name: Zenith
@@ -7,7 +7,7 @@ spring:
     prefix: classpath:/templates/
     suffix: .html
 polaris:
-  url: http://localhost:8080
+  url: http://localhost:8081/polaris
 zenith:
   mysql: # datasource
     driver-class-name: org.mariadb.jdbc.Driver

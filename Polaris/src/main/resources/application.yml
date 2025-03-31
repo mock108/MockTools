@@ -1,4 +1,7 @@
 spring.application.name: Polaris
+server:
+  port: 8081
+  servlet.context-path: /polaris
 polaris:
   encrypt:
     key: "/.polaris/secret/secret.key"

@@ -11,7 +11,7 @@ import io.github.mockup.zenith.core.interceptor.RestTemplateLoggingInterceptor;
 public class RestClientConfig {
 
 	@Bean
-	public RestTemplate restTemplate() {
+	RestTemplate restTemplate() {
 		return new RestTemplateBuilder()
 				.additionalInterceptors(new RestTemplateLoggingInterceptor())
 				.build();

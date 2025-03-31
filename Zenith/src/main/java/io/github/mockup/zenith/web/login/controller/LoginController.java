@@ -13,6 +13,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import io.github.mockup.zenith.core.constans.Pages;
+import io.github.mockup.zenith.core.util.ZenithStringUtils;
 import io.github.mockup.zenith.web.login.dto.polaris.PolarisAuthResponse;
 import io.github.mockup.zenith.web.login.dto.request.AuthRequestForm;
 import io.github.mockup.zenith.web.login.service.AuthProxyService;
@@ -30,29 +32,29 @@ public class LoginController {
 
 	@GetMapping("/login")
 	public String loginForm() {
-		return "login"; // login.html
+		return Pages.PAGE_LOGIN;
 	}
 
 	@PostMapping("/login")
-	public String loginSubmit(AuthRequestForm form, HttpSession session, HttpServletResponse response,Model model) {
+	public String loginSubmit(AuthRequestForm form, HttpSession session, HttpServletResponse response, Model model) {
 		log.info("login req");
 		PolarisAuthResponse tokens;
 		try {
 			tokens = authService.login(form.getUsername(), form.getPassword());
 		} catch (Exception e) {
 			model.addAttribute("error", "ログインに失敗しました。");
-			return "login";
+			return Pages.PAGE_LOGIN;
 		}
 		session.setAttribute("accessToken", tokens.accessToken());
-        // リフレッシュトークンを Cookie に保存（HttpOnly, Secure）
-        ResponseCookie refreshCookie = ResponseCookie.from("refreshToken", tokens.refreshToken())
-                .httpOnly(true)
-                .secure(false) // 本番は true（https）
-                .path("/")
-                .maxAge(Duration.ofDays(7))
-                .sameSite("Strict")
-                .build();
-        response.addHeader("Set-Cookie", refreshCookie.toString());
-		return "redirect:/home"; // 任意の画面へ
+		// リフレッシュトークンを Cookie に保存（HttpOnly, Secure）
+		ResponseCookie refreshCookie = ResponseCookie.from("refreshToken", tokens.refreshToken())
+				.httpOnly(true)
+				.secure(false) // 本番は true（https）
+				.path("/")
+				.maxAge(Duration.ofDays(7))
+				.sameSite("Strict")
+				.build();
+		response.addHeader("Set-Cookie", refreshCookie.toString());
+		return ZenithStringUtils.redirect("/home"); // 任意の画面へ
 	}
 }
