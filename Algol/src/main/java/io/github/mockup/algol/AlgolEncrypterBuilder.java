@@ -1,5 +1,7 @@
 package io.github.mockup.algol;
 
+import java.nio.file.Path;
+
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
@@ -19,8 +21,8 @@ public class AlgolEncrypterBuilder {
 
 	public static AlgolEncrypter defaultAlgolEncrypter() {
 		return builder()
-				.key(System.getProperty("user.home") + DEFAULT_ENCRYPT_KEY)
-				.iv(System.getProperty("user.home") + DEFAULT_ENCRYPT_IV)
+				.key(Path.of(System.getProperty("user.home"), DEFAULT_ENCRYPT_KEY).toString())
+				.iv(Path.of(System.getProperty("user.home"), DEFAULT_ENCRYPT_IV).toString())
 				.build();
 	}
 
@@ -29,7 +31,7 @@ public class AlgolEncrypterBuilder {
 	}
 
 	public AlgolEncrypterBuilder key(String key) {
-		this.secretIvFilePath = key;
+		this.secretKeyFilePath = key;
 		return this;
 	}
 

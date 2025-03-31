@@ -2,9 +2,9 @@ package io.github.mockup.polaris.web.service;
 
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import io.github.mockup.algol.AlgolEncrypter;
 import io.github.mockup.polaris.core.database.entity.User;
 import io.github.mockup.polaris.core.database.repository.UserRepository;
 import io.github.mockup.polaris.web.dto.request.AuthRequest;
@@ -17,13 +17,13 @@ public class AuthService {
 	/** ユーザRepository */
 	private final UserRepository userRepository;
 	/** パスワードエンコーダ */
-	private final PasswordEncoder passwordEncoder;
+	private final AlgolEncrypter algolEncrypter;
 	/** JWTサービス */
 	private final JwtService jwtService;
 
-	public AuthService(UserRepository userRepo, PasswordEncoder encoder, JwtService jwtService) {
+	public AuthService(UserRepository userRepo, AlgolEncrypter algolEncrypter, JwtService jwtService) {
 		this.userRepository = userRepo;
-		this.passwordEncoder = encoder;
+		this.algolEncrypter = algolEncrypter;
 		this.jwtService = jwtService;
 	}
 
@@ -34,7 +34,7 @@ public class AuthService {
 	public void register(RegisterRequest request) {
 		var user = new User();
 		user.setUsername(request.username());
-		user.setPassword(passwordEncoder.encode(request.password()));
+		user.setPassword(algolEncrypter.encryptstr(request.password()));
 		user.setRole(request.role());
 		userRepository.save(user);
 	}
@@ -48,7 +48,7 @@ public class AuthService {
 		var user = userRepository.findByUsername(request.username())
 				.orElseThrow(() -> new UsernameNotFoundException("Not found"));
 
-		if (!passwordEncoder.matches(request.password(), user.getPassword())) {
+		if (!request.password().equals(algolEncrypter.decrypt(user.getPassword()))) {
 			throw new BadCredentialsException("Invalid credentials");
 		}
 
