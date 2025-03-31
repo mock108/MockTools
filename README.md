@@ -1,4 +1,6 @@
 # 個人用自作Tool系プロジェクト
+## MockToolsParent
+  - Mavenローカル用モジュール化プロジェクト
 ## Zenith
   - プラットフォームサーバ
 ## Polaris
