@@ -1,102 +1,106 @@
 # MockTools
 
-MockTools is a monorepo for internal tooling and platform-level services, primarily developed in Java (Spring Boot). It contains multiple modules designed to support authentication, core service orchestration, and encryption infrastructure.
+MockTools is a monorepo for internal tools and platform-level services, primarily developed in Java (Spring Boot). It contains multiple modules that support authentication, service orchestration, and encryption infrastructure.
 
 ---
 
 ## 🧩 Modules
 
 ### `Polaris`
-
 Authentication & Authorization Service
-
-- Handles login, JWT issuance (currently delegating JWT logic to Algol)
-- Planned: Session/refresh token management, policy-based access
+- Handles login and JWT issuance (delegates cryptographic logic to Algol)
+- Future: Session/refresh token handling, policy-based access control
 
 ### `Zenith`
-
 Core Application Platform
-
-- Provides core platform logic and user-facing endpoints
-- Relies on JWT verification using Algol
+- Provides core business logic and public-facing endpoints
+- Uses Algol for JWT verification
 
 ### `Algol`
-
-Encryption and Token Utilities
-
-- AES-based encryption/decryption (`AES/CBC/PKCS5Padding`)
-- RSA-based JWT issuance/verification (RS256)
-- Modular builder-based design (easy DI with Spring)
-- No external exposure via Maven Central (internal only)
+Cryptography and JWT Utilities
+- AES encryption/decryption (`AES/CBC/PKCS5Padding`)
+- RSA JWT issuance and verification (RS256)
+- Claim parsing and role extraction
+- Modular builder-based design (Spring DI ready)
+- Not published to Maven Central; internal use only
 
 ### `AlgolTool`
-
-CLI Utility for encryption and key generation
-
-- Depends on `Algol` module directly
-- Used for:
+CLI utility for encryption and key management
+- Depends on `Algol`
+- Use cases:
   - AES/RSA key generation
   - File encryption/decryption
-  - JWT testing/verification
-- Packaged via GitHub Pages, not GitHub Releases
+  - JWT issuance and verification tests
+- Packaged via GitHub Pages (not as a release asset)
 
 ---
 
 ## 🚀 Release Strategy
 
 ### GitHub Releases
-
-Used **only for service artifacts** (e.g., WAR files for Polaris/Zenith).
-
-- Triggers CI/CD for deployment to internal environments
-- Example: `v1.2.0` → WARs + changelog published under `/releases`
+Used **only for full service artifacts**, such as WAR files for Polaris and Zenith.
+- Tagged release versions (e.g., `v1.2.0`) include WARs and changelogs
+- Triggers deployment automation to internal environments
 
 ### GitHub Pages
-
-Used for **internal CLI tool downloads** such as `AlgolTool`.
-
-- CLI artifacts (`.jar`, `.exe`, `.zip`) are placed in:
+Used to host internal **CLI tool builds and binaries**
+- Files are available under:
   - `https://mock108.github.io/MockTools/algol-tool/v1.2.0/`
-- Versioned and expandable (e.g., `/validator/`, `/configgen/` in future)
+- Supports versioning and flexible layout (e.g., `/validator/`, `/configgen/` planned)
 
 ---
 
 ## 🛠 Local Development
 
-This repository is built as a Maven multi-module project.
+This repository is structured as a Maven multi-module project:
 
 ```
 MockTools/
-├── MockToolsParent/   # Parent POM
-├── Algol/             # Crypto + JWT utility
-├── Polaris/           # Auth microservice
-├── Zenith/            # Core service
-├── AlgolTool/         # CLI utility (depends on Algol)
+├── MockToolsParent/   # Maven root project (parent POM)
+├── Algol/             # Cryptographic library
+├── Polaris/           # Auth service
+├── Zenith/            # Core business service
+├── AlgolTool/         # CLI utility (uses Algol)
 ```
 
-### Build All
-
+### Build all modules
 ```bash
 mvn clean install
 ```
 
-### Package AlgolTool only
-
+### Build only AlgolTool and its dependencies
 ```bash
 mvn clean package -pl AlgolTool -am
 ```
 
 ---
 
-## 📦 Planned Extensions
+## 🔗 Tool Downloads (GitHub Pages)
 
-- GUI wrapper for AlgolTool (Electron-based, cross-platform)
-- CLI argument parser improvements (Picocli or JCommander)
-- Internal S3-like deployment automation via Actions
+- Example: [algol-tool v1.2.0](https://mock108.github.io/MockTools/algol-tool/v1.2.0/)
+- Available formats: `.jar`, `.exe`, `.zip`
+- Intended for internal use only
+
+---
+
+## 📦 Planned Features
+
+- Cross-platform GUI wrapper for AlgolTool (Electron-based)
+- Improve CLI argument parsing (Picocli or JCommander)
+- Internal S3-compatible upload via GitHub Actions
+- Signature and checksum generation for binaries
 
 ---
 
 ## 📘 License
+For internal use only. License terms TBD.
 
-Internal use only – licensing TBD
+---
 
+## 📓 Naming Notes
+
+- **Polaris**: Points the way (auth anchor)
+- **Zenith**: The peak of application flow
+- **Algol**: A variable star, chosen for its duality (encrypt/decrypt)
+
+These names reflect a constellation-based naming convention used across internal platform components.
