@@ -12,43 +12,43 @@ import io.jsonwebtoken.Claims;
  */
 public class AlgolJwtClaimExtractor {
 
-    private AlgolJwtClaimExtractor() {
-        // インスタンス化禁止のユーティリティクラス
-    }
+	private AlgolJwtClaimExtractor() {
+		// インスタンス化禁止のユーティリティクラス
+	}
 
-    /**
-     * クレームから subject（サブジェクト）を取得します。
-     *
-     * @param claims JWTのClaimsオブジェクト
-     * @return subject（トークン発行対象の識別子）
-     */
-    public static String getSubject(Claims claims) {
-        return claims.getSubject();
-    }
+	/**
+	 * クレームから subject（サブジェクト）を取得します。
+	 *
+	 * @param claims JWTのClaimsオブジェクト
+	 * @return subject（トークン発行対象の識別子）
+	 */
+	public static String getSubject(Claims claims) {
+		return claims.getSubject();
+	}
 
-    /**
-     * クレームから roles を空白区切りのCSV文字列として取得し、List形式に変換します。
-     * <p>
-     * 例: "USER ADMIN" → List.of("USER", "ADMIN")
-     *
-     * @param claims JWTのClaimsオブジェクト
-     * @return 権限ロールのリスト
-     */
-    public static List<String> getRolesFromCsv(Claims claims) {
-        String rolesStr = claims.get("roles", String.class);
-        return Arrays.stream(rolesStr.split("\\s+"))
-            .map(String::trim)
-            .filter(s -> !s.isEmpty())
-            .toList();
-    }
+	/**
+	 * クレームから roles を空白区切りのCSV文字列として取得し、List形式に変換します。
+	 * <p>
+	 * 例: "USER ADMIN" → List.of("USER", "ADMIN")
+	 *
+	 * @param claims JWTのClaimsオブジェクト
+	 * @return 権限ロールのリスト
+	 */
+	public static List<String> getRolesFromCsv(Claims claims) {
+		String rolesStr = claims.get("roles", String.class);
+		return Arrays.stream(rolesStr.split("\\s+"))
+				.map(String::trim)
+				.filter(s -> !s.isEmpty())
+				.toList();
+	}
 
-    /**
-     * クレームからトークンの有効期限（exp）を取得します。
-     *
-     * @param claims JWTのClaimsオブジェクト
-     * @return 有効期限のInstant
-     */
-    public static Instant getExpiration(Claims claims) {
-        return claims.getExpiration().toInstant();
-    }
+	/**
+	 * クレームからトークンの有効期限（exp）を取得します。
+	 *
+	 * @param claims JWTのClaimsオブジェクト
+	 * @return 有効期限のInstant
+	 */
+	public static Instant getExpiration(Claims claims) {
+		return claims.getExpiration().toInstant();
+	}
 }

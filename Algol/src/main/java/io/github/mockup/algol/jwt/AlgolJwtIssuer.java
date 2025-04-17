@@ -14,38 +14,38 @@ import io.jsonwebtoken.SignatureAlgorithm;
  */
 public class AlgolJwtIssuer {
 
-    /** 秘密鍵（RS256署名用） */
-    private final PrivateKey privateKey;
+	/** 秘密鍵（RS256署名用） */
+	private final PrivateKey privateKey;
 
-    /** トークンの有効期限（Duration） */
-    private final Duration expiration;
+	/** トークンの有効期限（Duration） */
+	private final Duration expiration;
 
-    /**
-     * コンストラクタ
-     *
-     * @param privateKey 署名に使用する秘密鍵（RSA）
-     * @param expiration トークンの有効期間
-     */
-    public AlgolJwtIssuer(PrivateKey privateKey, Duration expiration) {
-        this.privateKey = privateKey;
-        this.expiration = expiration;
-    }
+	/**
+	 * コンストラクタ
+	 *
+	 * @param privateKey 署名に使用する秘密鍵（RSA）
+	 * @param expiration トークンの有効期間
+	 */
+	public AlgolJwtIssuer(PrivateKey privateKey, Duration expiration) {
+		this.privateKey = privateKey;
+		this.expiration = expiration;
+	}
 
-    /**
-     * JWTトークンを発行する。
-     *
-     * @param subject トークンの subject（ユーザー識別子など）
-     * @param rolesCsv 権限ロールの空白区切り文字列（例: "USER ADMIN"）
-     * @return 署名済みJWTトークン（Base64文字列）
-     */
-    public String issue(String subject, String rolesCsv) {
-        Instant now = Instant.now();
-        return Jwts.builder()
-                .setSubject(subject)
-                .claim("roles", rolesCsv)
-                .setIssuedAt(Date.from(now))
-                .setExpiration(Date.from(now.plus(expiration)))
-                .signWith(privateKey, SignatureAlgorithm.RS256)
-                .compact();
-    }
+	/**
+	 * JWTトークンを発行する。
+	 *
+	 * @param subject トークンの subject（ユーザー識別子など）
+	 * @param rolesCsv 権限ロールの空白区切り文字列（例: "USER ADMIN"）
+	 * @return 署名済みJWTトークン（Base64文字列）
+	 */
+	public String issue(String subject, String rolesCsv) {
+		Instant now = Instant.now();
+		return Jwts.builder()
+				.setSubject(subject)
+				.claim("roles", rolesCsv)
+				.setIssuedAt(Date.from(now))
+				.setExpiration(Date.from(now.plus(expiration)))
+				.signWith(privateKey, SignatureAlgorithm.RS256)
+				.compact();
+	}
 }

@@ -43,7 +43,7 @@ public class AlgolKeyLoaderUtil {
 					.replace("-----BEGIN PUBLIC KEY-----", "")
 					.replace("-----END PUBLIC KEY-----", "")
 					.replaceAll("\\s", "");
-			
+
 			byte[] decoded = Base64.getDecoder().decode(key);
 			X509EncodedKeySpec spec = new X509EncodedKeySpec(decoded);
 			return KeyFactory.getInstance("RSA").generatePublic(spec);
