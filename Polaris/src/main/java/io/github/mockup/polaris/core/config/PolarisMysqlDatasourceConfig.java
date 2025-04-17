@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.zaxxer.hikari.HikariDataSource;
 
-import io.github.mockup.algol.AlgolEncrypter;
+import io.github.mockup.algol.encrypter.AlgolEncrypter;
 
 @Configuration
 public class PolarisMysqlDatasourceConfig {

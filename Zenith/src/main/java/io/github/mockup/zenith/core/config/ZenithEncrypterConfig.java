@@ -3,8 +3,8 @@ package io.github.mockup.zenith.core.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import io.github.mockup.algol.AlgolEncrypter;
-import io.github.mockup.algol.AlgolEncrypterBuilder;
+import io.github.mockup.algol.encrypter.AlgolEncrypter;
+import io.github.mockup.algol.encrypter.AlgolEncrypterBuilder;
 
 /**
  * Zenith標準暗号化設定

@@ -2,6 +2,9 @@ package io.github.mockup.algol.exception;
 
 import io.github.mockup.algol.exception.base.AlgolRuntimeException;
 
+/**
+ * Algol暗号化例外
+ */
 public class AlgolEncrypterException extends AlgolRuntimeException {
 	public AlgolEncrypterException() {
 	}

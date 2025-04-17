@@ -1,5 +1,8 @@
 package io.github.mockup.algol.exception.base;
 
+/**
+ * Algol非検査例外
+ */
 public class AlgolRuntimeException extends RuntimeException {
 	public AlgolRuntimeException() {
 	}

@@ -1,5 +1,8 @@
 package io.github.mockup.algol.exception.base;
 
+/**
+ * Algol例外
+ */
 public class AlgolException extends Exception {
 	public AlgolException() {
 	}

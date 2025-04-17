@@ -4,7 +4,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import io.github.mockup.algol.AlgolEncrypter;
+import io.github.mockup.algol.encrypter.AlgolEncrypter;
 import io.github.mockup.polaris.core.database.entity.User;
 import io.github.mockup.polaris.core.database.repository.UserRepository;
 import io.github.mockup.polaris.web.dto.request.AuthRequest;
