@@ -93,7 +93,22 @@ mvn clean package -pl AlgolTool -am
 ---
 
 ## 📘 License
-For internal use only. License terms TBD.
+
+This project is shared openly for educational and portfolio purposes.
+
+You may:
+- View and explore the code freely
+- Fork this repository for personal learning or experimentation
+- Open pull requests if you find something useful or worth improving
+
+You may not:
+- Redistribute or commercially exploit the codebase or its parts
+- Claim authorship or offer this project as a service/product
+- Expect support, updates, or any guarantees regarding functionality
+
+If you’d like to use this code beyond learning, please contact the maintainer.
+
+All rights reserved © MockTools Project.
 
 ---
 
