@@ -111,11 +111,3 @@ If you’d like to use this code beyond learning, please contact the maintainer.
 All rights reserved © MockTools Project.
 
 ---
-
-## 📓 Naming Notes
-
-- **Polaris**: Points the way (auth anchor)
-- **Zenith**: The peak of application flow
-- **Algol**: A variable star, chosen for its duality (encrypt/decrypt)
-
-These names reflect a constellation-based naming convention used across internal platform components.
