@@ -1,0 +1,5 @@
+# docker/db/data 以下をGit管理対象外にする
+docker/db/data/
+
+# 空ディレクトリ維持用
+!docker/db/data/.gitkeep
