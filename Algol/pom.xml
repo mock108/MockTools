@@ -7,7 +7,7 @@
 		<groupId>io.github.mockup.mocktoolsparent</groupId>
 		<artifactId>MockToolsParent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
-		<relativePath>../MockToolsParent/pom.xml</relativePath>
+		<relativePath>../MockToolsParent</relativePath>
 	</parent>
 	<groupId>io.github.mockup</groupId>
 	<artifactId>Algol</artifactId>
