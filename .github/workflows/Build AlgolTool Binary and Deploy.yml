@@ -17,8 +17,9 @@ jobs:
       - name: Set up JDK with GraalVM
         uses: graalvm/setup-graalvm@v1
         with:
-          version: '21.0.2'
+          version: '21.0.1'
           java-version: '21'
+          distribution: 'graalvm-community'
           components: 'native-image'
 
       - name: Build JAR (fat jar)
