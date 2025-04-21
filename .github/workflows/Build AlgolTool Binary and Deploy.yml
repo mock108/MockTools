@@ -29,11 +29,9 @@ jobs:
       - name: Create native binary (.exe)
         working-directory: ./AlgolTool/target
         run: |
-          find -name "*-shaded.jar"
-          echo find -name "*-shaded.jar"
-          echo ls -l
+          ls -l ./
+          find ./ -type f
           JAR_PATH=$(find -name "*-shaded.jar" | head -n 1)
-          echo "JAR_PATH=$JAR_PATH"
           native-image --no-fallback --enable-https --static \
             -jar "$JAR_PATH" \
             algol-tool.exe
