@@ -59,6 +59,14 @@
 					</annotationProcessorPaths>
 				</configuration>
 			</plugin>
+			<!-- Springを継承しているためrepackageしようとする。ライブラリ用途のため 無効化 -->
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 </project>

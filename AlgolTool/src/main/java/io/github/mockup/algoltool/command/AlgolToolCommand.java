@@ -7,11 +7,11 @@ import lombok.RequiredArgsConstructor;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
-@Command(name = "algoltool", subcommands = {
+@Command(name = "algoltool", mixinStandardHelpOptions = true, version = "algoltool 0.1", description = "CLI tool for encryption and key management using Algol.", subcommands = {
 		InitCommand.class,
 		EncryptCommand.class,
 		DecryptCommand.class
-}, mixinStandardHelpOptions = true)
+}, usageHelpAutoWidth = true, sortOptions = false)
 @Component
 @RequiredArgsConstructor
 public class AlgolToolCommand implements Runnable {
