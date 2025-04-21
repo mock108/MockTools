@@ -22,17 +22,12 @@ jobs:
           distribution: 'graalvm-community'
           components: 'native-image'
 
-      - name: Build JAR (fat jar)
-        run: |
-          mvn clean install |
-          -P MockToolsParent |
-          -pl ../Algol |
-          -pl ../AlgolTool
-          
-        working-directory: ./
+      - name: Build Algol and AlgolTool
+        run: mvn clean install -pl Algol,AlgolTool -am
 
       - name: Create native binary (.exe)
         run: |
+          cd AlgolTool
           native-image --no-fallback --enable-https --static \
             -jar target/algol-tool-*-shaded.jar \
             algol-tool.exe
@@ -40,8 +35,8 @@ jobs:
       - name: Prepare files for GitHub Pages
         run: |
           mkdir -p publish/algol-tool/${{ github.event.inputs.version }}
-          cp target/algol-tool-*.jar publish/algol-tool/${{ github.event.inputs.version }}/algol-tool.jar
-          cp algol-tool.exe publish/algol-tool/${{ github.event.inputs.version }}/algol-tool.exe
+          cp AlgolTool/target/algol-tool-*.jar publish/algol-tool/${{ github.event.inputs.version }}/algol-tool.jar
+          cp AlgolTool/algol-tool.exe publish/algol-tool/${{ github.event.inputs.version }}/algol-tool.exe
 
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v4
