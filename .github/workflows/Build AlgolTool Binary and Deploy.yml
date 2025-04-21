@@ -35,7 +35,7 @@ jobs:
           echo "Using $JAR_PATH"
           native-image --no-fallback --enable-https `
             -jar $JAR_PATH `
-            algol-tool.exe
+            algol-tool
 
       - name: Prepare files for GitHub Pages
         shell: pwsh
