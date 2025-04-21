@@ -27,7 +27,6 @@ jobs:
         working-directory: ./MockToolsParent
 
       - name: Create native binary (.exe)
-        working-directory: ./AlgolTool
         run: |
           JAR_PATH=$(find AlgolTool/target -name "*-shaded.jar" | head -n 1)
           native-image --no-fallback --enable-https --static \
