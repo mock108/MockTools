@@ -23,7 +23,7 @@ jobs:
           components: 'native-image'
 
       - name: Build JAR (fat jar)
-        run: ./mvnw clean package -Pnative
+        run: mvn clean package -Pnative
 
       - name: Create native binary (.exe)
         run: |
