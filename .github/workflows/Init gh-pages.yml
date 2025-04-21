@@ -1,0 +1,29 @@
+name: Init gh-pages
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: 'Type YES to confirm clearing gh-pages branch'
+        required: true
+
+jobs:
+  clean-gh-pages:
+    if: ${{ github.event.inputs.confirm == 'YES' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout empty repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Create empty deploy folder
+        run: |
+          mkdir empty-pages
+
+      - name: Force push to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./empty-pages
+          force_orphan: true # ← これで履歴も空になる
