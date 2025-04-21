@@ -1,4 +1,4 @@
-name: Build AlgolTool Binary and Deploy
+name: Build AlgolTool Binary (.exe) on Windows and Deploy
 
 on:
   workflow_dispatch:
@@ -8,13 +8,14 @@ on:
         required: true
 
 jobs:
-  build-native:
-    runs-on: ubuntu-latest
+  build-native-windows:
+    runs-on: windows-latest
+
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up JDK with GraalVM
+      - name: Set up GraalVM for Windows
         uses: graalvm/setup-graalvm@v1
         with:
           version: '21.0.1'
@@ -22,27 +23,29 @@ jobs:
           distribution: 'graalvm-community'
           components: 'native-image'
 
-      - name: Build Algol and AlgolTool
+      - name: Build Algol and AlgolTool JAR
         working-directory: ./MockToolsParent
         run: mvn clean install -DskipTests -pl ../Algol,../AlgolTool -am
 
-      - name: Create native binary (.exe)
+      - name: Create native .exe from JAR
         working-directory: ./AlgolTool/target
+        shell: pwsh
         run: |
-          ls -l ./
-          find ./ -type f
-          JAR_PATH=$(find -name "algol-tool*.jar" | head -n 1)
-          native-image --no-fallback --enable-https --static \
-            -jar "$JAR_PATH" \
+          $JAR_PATH = Get-ChildItem -Filter "algol-tool*.jar" | Select-Object -First 1
+          echo "Using $JAR_PATH"
+          native-image --no-fallback --enable-https `
+            -jar $JAR_PATH `
             algol-tool.exe
 
       - name: Prepare files for GitHub Pages
+        shell: pwsh
         run: |
-          mkdir -p publish/algol-tool/${{ github.event.inputs.version }}
-          cp AlgolTool/target/algol-tool-*.jar publish/algol-tool/${{ github.event.inputs.version }}/algol-tool.jar
-          cp AlgolTool/algol-tool.exe publish/algol-tool/${{ github.event.inputs.version }}/algol-tool.exe
+          $dest = "publish/algol-tool/${{ github.event.inputs.version }}"
+          mkdir $dest -Force
+          Copy-Item AlgolTool/target/algol-tool-*.jar "$dest/algol-tool.jar"
+          Copy-Item AlgolTool/target/algol-tool.exe "$dest/algol-tool.exe"
 
-      - name: Deploy to gh-pages
+      - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           personal_token: ${{ secrets.GH_PAT }}
