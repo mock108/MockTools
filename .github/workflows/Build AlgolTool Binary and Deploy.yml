@@ -1,0 +1,43 @@
+name: Build AlgolTool Binary and Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version tag (e.g. v1.2.0)'
+        required: true
+
+jobs:
+  build-native:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK with GraalVM
+        uses: graalvm/setup-graalvm@v1
+        with:
+          version: '21.0.2'
+          java-version: '21'
+          components: 'native-image'
+
+      - name: Build JAR (fat jar)
+        run: ./mvnw clean package -Pnative
+
+      - name: Create native binary (.exe)
+        run: |
+          native-image --no-fallback --enable-https --static \
+            -jar target/algol-tool-*-shaded.jar \
+            algol-tool.exe
+
+      - name: Prepare files for GitHub Pages
+        run: |
+          mkdir -p publish/algol-tool/${{ github.event.inputs.version }}
+          cp target/algol-tool-*.jar publish/algol-tool/${{ github.event.inputs.version }}/algol-tool.jar
+          cp algol-tool.exe publish/algol-tool/${{ github.event.inputs.version }}/algol-tool.exe
+
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          personal_token: ${{ secrets.GH_PAT }}
+          publish_dir: ./publish
