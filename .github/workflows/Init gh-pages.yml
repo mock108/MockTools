@@ -24,6 +24,6 @@ jobs:
       - name: Force push to gh-pages
         uses: peaceiris/actions-gh-pages@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          personal_token: ${{ secrets.GH_PAT }}  # ← PAT に差し替え
           publish_dir: ./empty-pages
-          force_orphan: true # ← これで履歴も空になる
+          force_orphan: true
