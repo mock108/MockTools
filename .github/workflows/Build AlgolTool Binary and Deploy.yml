@@ -25,7 +25,7 @@ jobs:
 
       - name: Build Algol and AlgolTool JAR
         working-directory: ./MockToolsParent
-        run: mvn clean install -DskipTests -pl ../Algol,../AlgolTool -am
+        run: mvn clean install -DskipTests -Pnative -pl ../Algol,../AlgolTool -am
 
       - name: Create native .exe from JAR
         working-directory: ./AlgolTool/target
