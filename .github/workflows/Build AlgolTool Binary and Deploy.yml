@@ -25,12 +25,12 @@ jobs:
       - name: Build Algol and AlgolTool
         run: mvn clean install -DskipTests -pl ../Algol,../AlgolTool -am
         working-directory: ./MockToolsParent
-
       - name: Create native binary (.exe)
+        working-directory: ./AlgolTool
         run: |
-          cd AlgolTool
+          JAR_PATH=$(find target -name "*-shaded.jar" | head -n 1)
           native-image --no-fallback --enable-https --static \
-            -jar target/algol-tool-*-shaded.jar \
+            -jar "$JAR_PATH" \
             algol-tool.exe
 
       - name: Prepare files for GitHub Pages
