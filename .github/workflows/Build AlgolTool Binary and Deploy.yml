@@ -23,19 +23,20 @@ jobs:
           components: 'native-image'
 
       - name: Build Algol and AlgolTool
-        run: mvn clean install -DskipTests -pl ../Algol,../AlgolTool -am
         working-directory: ./MockToolsParent
+        run: mvn clean install -DskipTests -pl ../Algol,../AlgolTool -am
 
       - name: Create native binary (.exe)
+        working-directory: ./AlgolTool/target
         run: |
-          echo "Searching for shaded JAR in AlgolTool/target"
-          find AlgolTool/target -name "*-shaded.jar"
-          JAR_PATH=$(find AlgolTool/target -name "*-shaded.jar" | head -n 1)
+          find -name "*-shaded.jar"
+          echo find -name "*-shaded.jar"
+          echo ls -l
+          JAR_PATH=$(find -name "*-shaded.jar" | head -n 1)
           echo "JAR_PATH=$JAR_PATH"
           native-image --no-fallback --enable-https --static \
             -jar "$JAR_PATH" \
             algol-tool.exe
-        working-directory: ./
 
       - name: Prepare files for GitHub Pages
         run: |
