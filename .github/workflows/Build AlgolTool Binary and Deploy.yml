@@ -23,7 +23,7 @@ jobs:
           components: 'native-image'
 
       - name: Build Algol and AlgolTool
-        run: mvn clean install -pl ../Algol,../AlgolTool -am
+        run: mvn clean install -DskipTests -pl ../Algol,../AlgolTool -am
         working-directory: ./MockToolsParent
 
       - name: Create native binary (.exe)
