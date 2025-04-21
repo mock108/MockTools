@@ -23,8 +23,13 @@ jobs:
           components: 'native-image'
 
       - name: Build JAR (fat jar)
-        run: mvn clean package
-        working-directory: ./AlgolTool
+        run: |
+          mvn clean install |
+          -P MockToolsParent |
+          -pl ../Algol |
+          -pl ../AlgolTool
+          
+        working-directory: ./
 
       - name: Create native binary (.exe)
         run: |
