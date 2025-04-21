@@ -35,6 +35,7 @@ jobs:
           native-image --no-fallback --enable-https --static \
             -jar "$JAR_PATH" \
             algol-tool.exe
+        working-directory: ./
 
       - name: Prepare files for GitHub Pages
         run: |
