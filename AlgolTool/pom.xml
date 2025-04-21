@@ -58,8 +58,20 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-					<skip>true</skip>
+					<image>
+						<buildpacks>
+							<buildpack>paketobuildpacks/native-image</buildpack>
+						</buildpacks>
+					</image>
+					<aot>true</aot>
 				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>process-aot</goal> <!-- ← AOTクラスの生成 -->
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 			<!-- Fat JAR化 -->
 			<plugin>
