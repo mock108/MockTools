@@ -31,7 +31,7 @@ jobs:
         run: |
           ls -l ./
           find ./ -type f
-          JAR_PATH=$(find -name "*-shaded.jar" | head -n 1)
+          JAR_PATH=$(find -name "algol-tool*.jar" | head -n 1)
           native-image --no-fallback --enable-https --static \
             -jar "$JAR_PATH" \
             algol-tool.exe
