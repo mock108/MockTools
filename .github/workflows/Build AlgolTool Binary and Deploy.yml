@@ -31,7 +31,7 @@ jobs:
         working-directory: ./AlgolTool/target
         shell: pwsh
         run: |
-          $jar = Get-ChildItem -Filter "algol-tool*-shaded.jar" | Select-Object -First 1
+          $jar = Get-ChildItem -Filter "algol-tool*-.jar" | Select-Object -First 1
           native-image --no-fallback --enable-https --static `
             -jar "$($jar.FullName)" `
             algol-tool.exe
