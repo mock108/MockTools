@@ -32,12 +32,8 @@ jobs:
         shell: pwsh
         run: |
           $jar = Get-ChildItem -Filter "algol-tool*-shaded.jar" | Select-Object -First 1
-          echo "Using JAR: $($jar.FullName)"
-          native-image `
-            --no-fallback `
-            --enable-https `
+          native-image --no-fallback --enable-https `
             -H:Name=algol-tool `
-            -H:+UnlockExperimentalVMOptions `
             -H:Class=io.github.mockup.algoltool.AlgolToolApplication `
             -cp "$($jar.FullName)" `
             algol-tool.exe
