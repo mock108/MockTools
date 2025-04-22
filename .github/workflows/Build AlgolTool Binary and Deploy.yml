@@ -31,11 +31,9 @@ jobs:
         working-directory: ./AlgolTool/target
         shell: pwsh
         run: |
-          $jar = Get-ChildItem -Filter "algol-tool-*.jar" | Select-Object -First 1
           native-image --no-fallback --enable-https --static `
-            -jar "$($jar.FullName)" `
+            -jar algol-tool-0.0.1-SNAPSHOT-shaded.jar `
             algol-tool.exe
-
       - name: Prepare files for GitHub Pages
         shell: pwsh
         run: |
