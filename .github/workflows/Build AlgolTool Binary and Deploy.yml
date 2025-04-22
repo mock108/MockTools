@@ -27,15 +27,19 @@ jobs:
         working-directory: ./MockToolsParent
         run: mvn clean install -DskipTests -pl ../Algol,../AlgolTool -am
 
-      - name: Create native .exe from JAR
-        working-directory: ./AlgolTool/target
+      - name: Process AOT classes
+        working-directory: ./AlgolTool
+        run: mvn spring-boot:process-aot
+
+      - name: Create native .exe from AOT classes
+        working-directory: ./AlgolTool
         shell: pwsh
         run: |
-          $JAR_PATH = Get-ChildItem -Filter "algol-tool*.jar" | Select-Object -First 1
-          echo "Using $JAR_PATH"
           native-image --no-fallback --enable-https `
-            -jar $JAR_PATH `
-            algol-tool
+            -H:Name=algol-tool `
+            -H:Class=io.github.mockup.algoltool.AlgolToolApplication `
+            -cp target/classes;target/generated-aot/classes `
+            algol-tool.exe
 
       - name: Prepare files for GitHub Pages
         shell: pwsh
@@ -43,7 +47,7 @@ jobs:
           $dest = "publish/algol-tool/${{ github.event.inputs.version }}"
           mkdir $dest -Force
           Copy-Item AlgolTool/target/algol-tool-*.jar "$dest/algol-tool.jar"
-          Copy-Item AlgolTool/target/algol-tool.exe "$dest/algol-tool.exe"
+          Copy-Item AlgolTool/algol-tool.exe "$dest/algol-tool.exe"
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
