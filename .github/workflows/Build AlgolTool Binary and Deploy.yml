@@ -41,10 +41,8 @@ jobs:
         shell: pwsh
         run: |
           JAR_PATH=$(find -name "algol-tool*.jar" | head -n 1)
-          native-image --no-fallback --enable-https `
-            -H:Name=algol-tool `
-            -H:Class=io.github.mockup.algoltool.AlgolToolApplication `
-            -cp "$JAR_PATH" `
+          native-image --no-fallback --enable-https --static \
+            -jar "$JAR_PATH" \
             algol-tool.exe
 
       - name: Prepare files for GitHub Pages
