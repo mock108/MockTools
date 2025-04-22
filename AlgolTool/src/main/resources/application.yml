@@ -1,3 +1,4 @@
-spring.application.name: AlgolTool
+spring:
+  application.name: AlgolTool
 algol:
   secret-dir: ${user.home}/.algol/secret

@@ -1,0 +1,44 @@
+<configuration>
+
+  <!-- STDOUTにはERRORとWARNのみ色付きで表示 -->
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%highlight(%message) %n</pattern>
+    </encoder>
+  </appender>
+
+  <!-- LOGFILE（日付ごと、./log ディレクトリに出力） -->
+  <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>algol-tool-log/algol-tool.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>log/algol-tool-%d{yyyy-MM-dd}.log</fileNamePattern>
+      <cleanHistoryOnStart>false</cleanHistoryOnStart>
+    </rollingPolicy>
+    <encoder>
+      <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <!-- command INFO以上をSTDOUTへ -->
+  <logger name="io.github.mockup.algoltool.command" level="INFO" additivity="false">
+    <appender-ref ref="STDOUT"/>
+  </logger>
+  <logger name="io.github.mockup.algoltool.service" level="INFO" additivity="false">
+    <appender-ref ref="STDOUT"/>
+  </logger>
+
+  <!-- command DEBUG以上をFILEへ（追加で） -->
+  <logger name="io.github.mockup.algoltool" level="DEBUG">
+    <appender-ref ref="FILE"/>
+  </logger>
+
+  <logger name="org.springframework" level="INFO" additivity="false">
+    <appender-ref ref="FILE"/>
+  </logger>
+  <logger name="org.springframework.boot" level="INFO" additivity="false">
+    <appender-ref ref="FILE"/>
+  </logger>
+  <root level="DEBUG">
+    <appender-ref ref="FILE"/>
+  </root>
+</configuration>

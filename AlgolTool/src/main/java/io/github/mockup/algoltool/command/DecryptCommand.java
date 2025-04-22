@@ -1,5 +1,7 @@
 package io.github.mockup.algoltool.command;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import io.github.mockup.algoltool.service.EncryptionService;
@@ -15,6 +17,8 @@ import picocli.CommandLine.Option;
 )
 @RequiredArgsConstructor
 public class DecryptCommand implements Runnable {
+	/** ロガー */
+	private static final Logger log = LoggerFactory.getLogger(DecryptCommand.class);
 
     private final EncryptionService encryptionService;
 
@@ -25,10 +29,9 @@ public class DecryptCommand implements Runnable {
     public void run() {
         try {
             String decrypted = encryptionService.decryptText(encryptedText);
-            System.out.println(decrypted);
+            log.info(decrypted);
         } catch (Exception e) {
-            System.err.println("復号に失敗しました: " + e.getMessage());
-            e.printStackTrace();
+        	log.error("復号に失敗しました: ", e);
         }
     }
 }

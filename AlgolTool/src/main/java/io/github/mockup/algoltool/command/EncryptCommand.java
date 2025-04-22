@@ -1,5 +1,7 @@
 package io.github.mockup.algoltool.command;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import io.github.mockup.algoltool.service.EncryptionService;
@@ -15,6 +17,8 @@ import picocli.CommandLine.Option;
 )
 @RequiredArgsConstructor
 public class EncryptCommand implements Runnable {
+	/** ロガー */
+	private static final Logger log = LoggerFactory.getLogger(EncryptCommand.class);
 
     private final EncryptionService encryptionService;
 
@@ -25,10 +29,9 @@ public class EncryptCommand implements Runnable {
     public void run() {
         try {
             String encrypted = encryptionService.encryptText(inputText);
-            System.out.println(encrypted);
+            log.info(encrypted);
         } catch (Exception e) {
-            System.err.println("暗号化に失敗しました: " + e.getMessage());
-            e.printStackTrace();
+        	log.error("暗号化に失敗しました", e);
         }
     }
 }

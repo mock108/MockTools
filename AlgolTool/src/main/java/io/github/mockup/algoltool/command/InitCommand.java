@@ -1,5 +1,7 @@
 package io.github.mockup.algoltool.command;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import io.github.mockup.algoltool.service.KeyGenerationService;
@@ -10,6 +12,8 @@ import picocli.CommandLine.Command;
 @Command(name = "init", description = "初期鍵ファイル（RSA鍵、AES鍵、IV）を ~/.algol/secret/ に生成します", mixinStandardHelpOptions = true)
 @RequiredArgsConstructor
 public class InitCommand implements Runnable {
+	/** ロガー */
+	private static final Logger log = LoggerFactory.getLogger(InitCommand.class);
 
 	private final KeyGenerationService keyGenerationService;
 
@@ -17,10 +21,8 @@ public class InitCommand implements Runnable {
 	public void run() {
 		try {
 			keyGenerationService.generateAllKeys();
-			System.out.println("鍵ファイルを ~/.algol/secret/ に生成しました。");
 		} catch (Exception e) {
-			System.err.println("鍵生成に失敗しました: " + e.getMessage());
-			e.printStackTrace();
+			log.error("鍵生成に失敗しました", e);
 		}
 	}
 }

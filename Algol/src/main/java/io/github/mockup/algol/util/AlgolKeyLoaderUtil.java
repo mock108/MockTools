@@ -25,7 +25,6 @@ public class AlgolKeyLoaderUtil {
 	 * @throws IOException 読み取り例外
 	 */
 	public static byte[] readBytes(String path) throws IOException {
-		System.out.println(path);
 		try (InputStream i = new FileInputStream(path)) {
 			return Base64.getDecoder().decode(i.readAllBytes());
 		}
