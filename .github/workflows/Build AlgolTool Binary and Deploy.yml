@@ -26,15 +26,6 @@ jobs:
       - name: Build Algol and AlgolTool JAR
         working-directory: ./MockToolsParent
         run: mvn clean install -DskipTests -pl ../Algol,../AlgolTool -am
-      - name: Create native .exe from shaded JAR
-        working-directory: ./AlgolTool/target
-        shell: pwsh
-        run: |
-          $jar = Get-ChildItem -Filter "algol-tool*-shaded.jar" | Select-Object -First 1
-          native-image --no-fallback --enable-https `
-          -H:Name=algol-tool `
-          -H:Class=io.github.mockup.algoltool.AlgolToolApplication `
-          -cp "$($jar.FullName)"
 
       - name: Create native .exe from shaded JAR
         working-directory: ./AlgolTool/target
