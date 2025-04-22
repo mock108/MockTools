@@ -40,11 +40,11 @@ jobs:
         working-directory: ./AlgolTool/target
         shell: pwsh
         run: |
-          $jar = Get-ChildItem -Filter "algol-tool*-shaded.jar" | Select-Object -First 1
+          JAR_PATH=$(find -name "algol-tool*.jar" | head -n 1)
           native-image --no-fallback --enable-https `
             -H:Name=algol-tool `
             -H:Class=io.github.mockup.algoltool.AlgolToolApplication `
-            -cp "$($jar.FullName)" `
+            -cp "$JAR_PATH" `
             algol-tool.exe
 
       - name: Prepare files for GitHub Pages
