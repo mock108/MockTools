@@ -16,7 +16,7 @@ import picocli.CommandLine.Command;
  * </p>
  */
 @Component
-@Command(name = "init", description = "初期鍵ファイル（RSA鍵、AES鍵、IV）を ~/.algol/secret/ に生成します", mixinStandardHelpOptions = true)
+@Command(name = "init", description = "初期鍵ファイル（RSA鍵、AES鍵、IV）を ~/.algol/secret/ に生成します")
 @RequiredArgsConstructor
 public class InitCommand implements Runnable {
 

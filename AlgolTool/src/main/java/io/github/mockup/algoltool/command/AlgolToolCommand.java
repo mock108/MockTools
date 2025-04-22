@@ -17,13 +17,14 @@ import picocli.CommandLine.Option;
  * {@code init}, {@code encrypt}, {@code decrypt} を提供します。
  * </p>
  */
-@Command(name = "algoltool", mixinStandardHelpOptions = true, version = "algoltool 0.1", description = "CLI tool for encryption and key management using Algol.", subcommands = {
+@Command(name = "algoltool", version = "algoltool 0.1", description = "CLI tool for encryption and key management using Algol.", subcommands = {
 		InitCommand.class,
 		EncryptCommand.class,
 		DecryptCommand.class
-}, usageHelpAutoWidth = true, sortOptions = false)
+}, sortOptions = false)
 @Component
 @RequiredArgsConstructor
+
 public class AlgolToolCommand implements Runnable {
 
 	/** ロガー */

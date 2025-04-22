@@ -16,7 +16,7 @@ import picocli.CommandLine.Option;
  * </p>
  */
 @Component
-@Command(name = "decrypt", description = "指定文字列をAESで復号します（Base64入力）", mixinStandardHelpOptions = true)
+@Command(name = "decrypt", description = "指定文字列をAESで復号します（Base64入力）")
 @RequiredArgsConstructor
 public class DecryptCommand implements Runnable {
 

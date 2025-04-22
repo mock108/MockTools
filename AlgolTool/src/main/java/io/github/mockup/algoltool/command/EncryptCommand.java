@@ -17,7 +17,7 @@ import picocli.CommandLine.Option;
  * </p>
  */
 @Component
-@Command(name = "encrypt", description = "指定文字列をAESで暗号化してBase64出力します", mixinStandardHelpOptions = true)
+@Command(name = "encrypt", description = "指定文字列をAESで暗号化してBase64出力します")
 @RequiredArgsConstructor
 public class EncryptCommand implements Runnable {
 
