@@ -23,17 +23,10 @@ jobs:
           distribution: 'graalvm-community'
           components: 'native-image'
 
-      - name: Build Algol and AlgolTool JAR
+      - name: Build with Native Profile
         working-directory: ./MockToolsParent
-        run: mvn clean install -DskipTests -pl ../Algol,../AlgolTool -am
+        run: mvn clean install -DskipTests -Pnative -pl ../Algol,../AlgolTool -am
 
-      - name: Create native .exe from shaded JAR
-        working-directory: ./AlgolTool/target
-        shell: pwsh
-        run: |
-          native-image --no-fallback --enable-https --static `
-            -jar algol-tool-0.0.1-SNAPSHOT-shaded.jar `
-            algol-tool.exe
       - name: Prepare files for GitHub Pages
         shell: pwsh
         run: |
