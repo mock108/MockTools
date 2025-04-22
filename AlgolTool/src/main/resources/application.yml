@@ -1,4 +1,10 @@
+# Spring Boot アプリケーションの設定
 spring:
+  # アプリケーション名（ログや管理ツールで使用）
   application.name: AlgolTool
+
+# AlgolTool 独自の設定
 algol:
+  # 秘密鍵や暗号化情報の保存先ディレクトリ
+  # デフォルトではユーザーのホーム配下にある `.algol/secret/` を使用
   secret-dir: ${user.home}/.algol/secret

@@ -1,43 +1,57 @@
 <configuration>
 
-  <!-- STDOUTにはERRORとWARNのみ色付きで表示 -->
+  <!-- 標準出力（STDOUT）にERRORとWARNレベルを色付きで出力 -->
+  <!-- ※INFO以上のログを出すロガー（command, service）にのみSTDOUTを適用 -->
   <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
     <encoder>
+      <!-- %highlight でログレベルごとに色分け。出力はメッセージのみ -->
       <pattern>%highlight(%message) %n</pattern>
     </encoder>
   </appender>
 
-  <!-- LOGFILE（日付ごと、./log ディレクトリに出力） -->
+  <!-- ファイル出力（FILE）：DEBUG以上のログを出力。日付単位でローテーション -->
+  <!-- 出力先は ./algol-tool-log/algol-tool-YYYY-MM-DD.log -->
   <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <!-- アクティブなログファイル名 -->
     <file>algol-tool-log/algol-tool.log</file>
+
+    <!-- 日単位のローテーションポリシーを使用 -->
     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-      <fileNamePattern>log/algol-tool-%d{yyyy-MM-dd}.log</fileNamePattern>
+      <!-- ローテーション後のファイル名パターン -->
+      <fileNamePattern>algol-tool-log/algol-tool-%d{yyyy-MM-dd}.log</fileNamePattern>
+      <!-- 起動時に古いログを消さない -->
       <cleanHistoryOnStart>false</cleanHistoryOnStart>
     </rollingPolicy>
+
     <encoder>
+      <!-- ログ出力フォーマット（日時、スレッド、レベル、クラス名、メッセージ） -->
       <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
     </encoder>
   </appender>
 
-  <!-- command INFO以上をSTDOUTへ -->
+  <!-- command系パッケージはINFO以上をSTDOUT（＝ユーザー向け出力）に出力 -->
   <logger name="io.github.mockup.algoltool.command" level="INFO" additivity="false">
     <appender-ref ref="STDOUT"/>
   </logger>
+  <!-- service系パッケージもINFO以上をSTDOUTへ -->
   <logger name="io.github.mockup.algoltool.service" level="INFO" additivity="false">
     <appender-ref ref="STDOUT"/>
   </logger>
 
-  <!-- command DEBUG以上をFILEへ（追加で） -->
+  <!-- algoltoolパッケージ全体のDEBUG以上をファイルに出力 -->
   <logger name="io.github.mockup.algoltool" level="DEBUG">
     <appender-ref ref="FILE"/>
   </logger>
 
+  <!-- Springフレームワーク関連のログはINFO以上をFILEのみに出力（標準出力には出さない） -->
   <logger name="org.springframework" level="INFO" additivity="false">
     <appender-ref ref="FILE"/>
   </logger>
   <logger name="org.springframework.boot" level="INFO" additivity="false">
     <appender-ref ref="FILE"/>
   </logger>
+
+  <!-- ルートロガー（全体）にはDEBUG以上をFILEへ（漏れをカバー） -->
   <root level="DEBUG">
     <appender-ref ref="FILE"/>
   </root>
