@@ -1,78 +1,78 @@
-## 📘 使用方法 (Usage)
+# AlgolTool
 
-### 🔧 初期化 (鍵ファイル生成)
+AlgolTool は、AES暗号化とRSA署名付きJWTの生成／検証に対応した CLI ツールです。  
+秘密鍵・公開鍵・AESキー・IVの生成と、暗号化／復号処理をコマンドラインから簡単に行えます。
 
-```bash
-java -jar algoltool.jar init
-```
+## 特長
 
-デフォルトで `~/.algol/secret/` に以下のファイルが生成されます:
+- AES（CBC/PKCS5Padding）による暗号化・復号
+- RSA（2048bit）による JWT 署名・検証（JJWT利用）
+- Spring Boot + Picocli による CLI 実装
+- 鍵情報の出力先は `--secret-dir` にて指定可能（デフォルトは `~/.algol/secret`）
+- 実行ログは標準出力とファイル出力に分離し、用途別に最適化
 
-- `secret.key`：AES鍵
-- `secret.iv`：AES IV
-- `private.pem`：RSA秘密鍵
-- `public.pem`：RSA公開鍵
+## 前提
 
-▶ `--secret-dir` で保存先を変更可能:
+- Java 21
+- GraalVM（ネイティブビルドする場合）
 
-```bash
-java -jar algoltool.jar --secret-dir ./mykeys init
-```
+## インストール
 
----
+### GitHub Pages 経由ダウンロード
 
-### 🔐 文字列を暗号化 (AES)
+https://mock108.github.io/MockTools/algol-tool/v1.2.0/
 
-```bash
-java -jar algoltool.jar encrypt --text "平文文字列"
-```
+- `algol-tool.jar`（通常のJava実行用）
+- `algol-tool.exe`（Windowsネイティブ実行用）
 
-- 出力：Base64形式の暗号化文字列
-- 鍵保存元は `--secret-dir` で指定可能
+## コマンド一覧
 
 ```bash
-java -jar algoltool.jar --secret-dir ./mykeys encrypt --text "Hello"
+algoltool --help
 ```
 
----
+```
+Usage: algoltool [-hV] [--secret-dir=<secretDir>] [COMMAND]
+CLI tool for encryption and key management using Algol.
+  -h, --help      Show this help message and exit.
+  -V, --version   Print version information and exit.
+      --secret-dir=<secretDir>
+                  鍵ファイル格納ディレクトリ
+Commands:
+  init     初期鍵ファイル（RSA鍵、AES鍵、IV）を ~/.algol/secret/ に生成します
+  encrypt  指定文字列をAESで暗号化してBase64出力します
+  decrypt  指定文字列をAESで復号します（Base64入力）
+```
 
-### 🔓 文字列を復反 (AES)
+## 使用例
 
 ```bash
-java -jar algoltool.jar decrypt --text "暗号化されたBase64文字列"
+# 鍵を生成（~/.algol/secret に作成）
+algoltool init
+
+# AES暗号化（Base64で出力）
+algoltool encrypt -t "Hello, World!"
+
+# AES復号
+algoltool decrypt -t "（上で出力されたBase64文字列）"
+
+# 任意ディレクトリに鍵保存する場合
+algoltool --secret-dir=c:/my/secret init
 ```
 
-- 出力：復反された平文
+## application.yml の設定
 
----
+```yaml
+spring:
+  application.name: AlgolTool
 
-## 🛠 オプション一覧
-
-| オプション名 | 説明 | 備考 |
-|--------------|------|------|
-| `--secret-dir` | 鍵ファイルの保存/読み込みディレクトリ | デフォルトは `~/.algol/secret` |
-| `--text` | 暗号化/復反対象の文字列 | `encrypt` / `decrypt` 共通 |
-
----
-
-## 📂 鍵ファイル構成
-
-```bash
-~/.algol/secret/
-├── secret.key     ← AES鍵
-├── secret.iv      ← AES初期化ベクトル
-├── private.pem    ← RSA秘密鍵
-└── public.pem     ← RSA公開鍵
+algol:
+  secret-dir: ${user.home}/.algol/secret  # 鍵ファイル格納先（環境変数で上書き可能）
 ```
 
----
+## ログ設定（logback.xml）
 
-## 🚀 ビルド方法 (開発用)
+- `STDOUT`：INFO以上のログを表示（主にコマンド実行結果）
+- `./algol-tool-log/algol-tool-YYYY-MM-DD.log`：DEBUG以上の詳細ログを保存
 
-```bash
-mvn clean package
-```
-
-- 出力：`target/algoltool.jar`
-- Native Image対応の場合はこの JAR を元にバイナリ化
-
+出力先などの詳細は [`src/main/resources/logback.xml`](src/main/resources/logback.xml) を参照してください。
