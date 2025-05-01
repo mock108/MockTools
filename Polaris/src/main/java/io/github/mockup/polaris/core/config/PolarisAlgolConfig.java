@@ -5,6 +5,8 @@ import org.springframework.context.annotation.Configuration;
 
 import io.github.mockup.algol.encrypter.AlgolEncrypter;
 import io.github.mockup.algol.encrypter.AlgolEncrypterBuilder;
+import io.github.mockup.algol.jwt.AlgolJwtIssuer;
+import io.github.mockup.algol.jwt.AlgolJwtIssuerBuilder;
 
 /**
  * Polaris標準暗号化設定
@@ -16,5 +18,10 @@ public class PolarisAlgolConfig {
 	@Bean
 	AlgolEncrypter algolEncrypter() {
 		return AlgolEncrypterBuilder.defaultAlgolEncrypter();
+	}
+	/** AlgolJwtIssuer定義 */
+	@Bean
+	AlgolJwtIssuer algolJwtIssuer() {
+		return AlgolJwtIssuerBuilder.defaultAlgolJwtIssuer();
 	}
 }
