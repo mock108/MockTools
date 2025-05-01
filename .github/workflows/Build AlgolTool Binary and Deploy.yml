@@ -33,7 +33,6 @@ jobs:
           $dest = "publish/algol-tool/${{ github.event.inputs.version }}"
           mkdir $dest -Force
           Copy-Item AlgolTool/target/algol-tool-*.jar "$dest/algol-tool.jar"
-          Copy-Item AlgolTool/target/algol-tool.exe "$dest/algol-tool.exe"
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
