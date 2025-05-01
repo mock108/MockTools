@@ -23,7 +23,6 @@ AlgolTool は、AES暗号化とRSA署名付きJWTの生成／検証に対応し�
 https://mock108.github.io/MockTools/algol-tool/v1.2.0/
 
 - `algol-tool.jar`（通常のJava実行用）
-- `algol-tool.exe`（Windowsネイティブ実行用）
 
 ## コマンド一覧
 
