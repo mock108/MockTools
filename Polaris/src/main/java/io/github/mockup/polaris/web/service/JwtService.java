@@ -1,18 +1,25 @@
 package io.github.mockup.polaris.web.service;
 
+import java.time.Duration;
 import java.util.Date;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import io.github.mockup.algol.jwt.AlgolJwtIssuer;
+import io.github.mockup.algol.jwt.AlgolJwtVerifier;
+import io.github.mockup.algol.jwt.JwtIssueData;
 import io.github.mockup.polaris.core.database.entity.User;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
 
 @Service
 public class JwtService {
-	private final String SECRET_KEY = "my-super-secure-secret-key-1234567890!!";
+	/** JWT発行 */
+	@Autowired
+	private AlgolJwtIssuer algolJwtIssuer;
+	/** JWT復号 */
+	@Autowired
+	private AlgolJwtVerifier algolJwtVerifier;
 
 	/**
 	 * JWT生成
@@ -20,14 +27,11 @@ public class JwtService {
 	 * @return JWT文字列
 	 */
 	public String generateToken(User user) {
-		return Jwts.builder()
-				.setIssuer("Mockup Polaris")
-				.setSubject(user.getUsername())
-				.claim("role", user.getRole())
-				.setIssuedAt(new Date())
-				.setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60)) // 1時間
-				.signWith(Keys.hmacShaKeyFor(SECRET_KEY.getBytes()), SignatureAlgorithm.HS256)
-				.compact();
+		JwtIssueData jwtData = new JwtIssueData();
+		jwtData.setSubject(user.getUsername());
+		jwtData.setRolesCsv(user.getRole());
+		jwtData.setExpiration(Duration.ofHours(5));
+		return algolJwtIssuer.issue(jwtData);
 	}
 
 	/**
@@ -36,12 +40,10 @@ public class JwtService {
 	 * @return JWT文字列
 	 */
 	public String generateRefreshToken(User user) {
-		return Jwts.builder()
-				.setSubject(user.getUsername())
-				.setIssuedAt(new Date())
-				.setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 7)) // 7日間
-				.signWith(Keys.hmacShaKeyFor(SECRET_KEY.getBytes()), SignatureAlgorithm.HS256)
-				.compact();
+		JwtIssueData jwtData = new JwtIssueData();
+		jwtData.setSubject(user.getUsername());
+		jwtData.setExpiration(Duration.ofDays(7));
+		return algolJwtIssuer.issue(jwtData);
 	}
 
 	/**
@@ -68,10 +70,6 @@ public class JwtService {
 	 * @return 解析結果
 	 */
 	private Claims extractAllClaims(String token) {
-		return Jwts.parserBuilder()
-				.setSigningKey(Keys.hmacShaKeyFor(SECRET_KEY.getBytes()))
-				.build()
-				.parseClaimsJws(token)
-				.getBody();
+		return algolJwtVerifier.verifyAndExtractClaims(token);
 	}
 }

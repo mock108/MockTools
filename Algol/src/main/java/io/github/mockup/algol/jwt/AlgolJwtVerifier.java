@@ -25,13 +25,30 @@ public class AlgolJwtVerifier {
 	}
 
 	/**
+	 * JWTトークンの署名および有効期限を検証する。
+	 *
+	 * @param token JWTトークン（Bearerトークン）
+	 * @throws AlgolJwtException 署名不正や有効期限切れなど、トークン検証に失敗した場合
+	 */
+	public void verify(String token) throws AlgolJwtException {
+		try {
+			Jwts.parserBuilder()
+					.setSigningKey(publicKey)
+					.build()
+					.parseClaimsJws(token);
+		} catch (JwtException e) {
+			throw new AlgolJwtException("JWTの検証に失敗しました", e);
+		}
+	}
+
+	/**
 	 * JWTトークンの署名および有効期限を検証し、トークンのクレームを返却する。
 	 *
 	 * @param token JWTトークン（Bearerトークン）
 	 * @return トークンに含まれるクレーム（Claims）
 	 * @throws AlgolJwtException 署名不正や有効期限切れなど、トークン検証に失敗した場合
 	 */
-	public Claims verify(String token) {
+	public Claims verifyAndExtractClaims(String token) throws AlgolJwtException {
 		try {
 			return Jwts.parserBuilder()
 					.setSigningKey(publicKey)
@@ -39,7 +56,7 @@ public class AlgolJwtVerifier {
 					.parseClaimsJws(token)
 					.getBody();
 		} catch (JwtException e) {
-			throw new AlgolJwtException("JWTの検証に失敗しました", e);
+			throw new AlgolJwtException("JWTのクレーム抽出に失敗しました", e);
 		}
 	}
 }

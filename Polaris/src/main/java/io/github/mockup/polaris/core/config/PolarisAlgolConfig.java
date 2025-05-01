@@ -7,6 +7,8 @@ import io.github.mockup.algol.encrypter.AlgolEncrypter;
 import io.github.mockup.algol.encrypter.AlgolEncrypterBuilder;
 import io.github.mockup.algol.jwt.AlgolJwtIssuer;
 import io.github.mockup.algol.jwt.AlgolJwtIssuerBuilder;
+import io.github.mockup.algol.jwt.AlgolJwtVerifier;
+import io.github.mockup.algol.jwt.AlgolJwtVerifierBuilder;
 
 /**
  * Polaris標準暗号化設定
@@ -23,5 +25,10 @@ public class PolarisAlgolConfig {
 	@Bean
 	AlgolJwtIssuer algolJwtIssuer() {
 		return AlgolJwtIssuerBuilder.defaultAlgolJwtIssuer();
+	}
+	/** AlgolJwtIssuer定義 */
+	@Bean
+	AlgolJwtVerifier algolJwtVerifier() {
+		return AlgolJwtVerifierBuilder.defaultAlgolJwtVerifier();
 	}
 }
