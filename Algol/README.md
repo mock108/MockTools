@@ -1,3 +1,4 @@
+<img src="./burner.png" width="320px">
 # Algol - JWT & Encryption Utility Library
 
 **Algol** is a security-focused Java utility library that provides essential components for JWT (JSON Web Token) generation, verification, and AES-based encryption/decryption. It is designed to work as a foundational module for secure applications, including but not limited to authentication servers and resource-protecting services.
